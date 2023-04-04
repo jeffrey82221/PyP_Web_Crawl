@@ -10,9 +10,9 @@ def update(pkg_name):
         if download_new(pkg_name, result):
             remove_old(pkg_name, result)
         else:
-            print("Already exists")
+            pass
     else:
-        print("No releases")
+        pass
 
 
 def get_data(pkg_name):
@@ -37,10 +37,9 @@ def remove_old(pkg_name, result):
         old_json_path = f"data/latest/{pkg_name}.rc{rc}.json"
         if os.path.exists(old_json_path):
             os.remove(old_json_path)
-            print(f"{old_json_path} removed")
             break
         else:
-            print(f"{old_json_path} does not exist")
+            pass
         rc -= 1
 
 

@@ -1,4 +1,7 @@
 """
+Sort the package release by upload date 
+and continue to update the resulting table
+
 TODO:
 - [X] Load (package, release, updatetime) from data/latest
     - [X] Ignore release that does not fit a,b,c
