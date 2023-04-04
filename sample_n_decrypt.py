@@ -19,4 +19,4 @@ def run(src_path, sample_size):
             json.dump(json_obj, f, ensure_ascii=False, indent=2)
 
 if __name__ == '__main__':
-    run(sys.argv[0], int(sys.argv[1]))
+    run(sys.argv[1], int(sys.argv[2]))
