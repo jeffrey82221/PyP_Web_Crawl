@@ -21,6 +21,9 @@ jobs:
       - name: New Branch
         run: |
           git checkout -b update_release/${{ matrix.alpha }}
+      - name: Insert Key
+        run: |
+          echo ${{ secrets.FILEKEY }} >> filekey.key
       - name: Run update script
         run: python update_release_all.py ${{ matrix.alpha }} 20
       - name: Git Commit 

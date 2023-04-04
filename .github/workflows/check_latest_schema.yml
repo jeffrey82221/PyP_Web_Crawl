@@ -1,7 +1,7 @@
 name: Check Latest Schema 
-on:
-  schedule:
-    - cron: "0 * * * *"
+# on:
+#   schedule:
+#     - cron: "0 * * * *"
 jobs:
   check_schema:
     runs-on: ubuntu-latest
@@ -19,6 +19,9 @@ jobs:
           pip install tqdm
           pip install blosc
           pip install scalable-cuckoo-filter
+      - name: Insert Key
+        run: |
+          echo ${{ secrets.FILEKEY }} >> filekey.key
       - name: Run JSkiner 
         run: jskiner --in-path data/latest --nworkers 4 --verbose true --out data/latest.schema --batch-size 1000 --cuckoo-path data/latest.cuckoo --cuckoo-size 50000000 --cuckoo-fpr 0.1 --sample-size 10000
       - name: Git commit

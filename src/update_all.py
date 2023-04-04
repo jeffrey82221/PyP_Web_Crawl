@@ -29,7 +29,7 @@ def update_all(update, index, split_cnt=10):
     # Do Split
     pkg_cnt_per_file = int(total / split_cnt)
     subprocess.run(["split", "-l", str(pkg_cnt_per_file), PATH, SPLIT_PATH + "/"])
-    files = os.listdir(SPLIT_PATH)
+    files = sorted(os.listdir(SPLIT_PATH))
     print(f"split files: {files}")
     file = files[index]
     print(f"selected file: {file}")
