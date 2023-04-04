@@ -3,8 +3,6 @@ from cryptography.fernet import Fernet
 
 key = Fernet.generate_key()
 
-# string the key in a file
-
 
 class JsonTool:
     def __init__(self, key_path: str):
