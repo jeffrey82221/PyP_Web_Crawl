@@ -1,8 +1,7 @@
 name: Update Latest Json
-on: push
-# on: 
-#   schedule:
-#     - cron: "0 0 * * *"
+on: 
+  schedule:
+    - cron: "0 0 * * *"
 jobs:
   update_package_names:
     runs-on: ubuntu-latest

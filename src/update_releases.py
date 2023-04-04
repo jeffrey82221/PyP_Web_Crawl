@@ -1,14 +1,5 @@
 """
-- [X] Download release json given package name and release name 
-- [X] Get release names of a package from data/latest/<package_name>
-- [X] Create releases/package_name folder automatically if it does not exists 
-- [-] Identify missing release in releases/package_name folder 
-- [X] Adding ignoring rule (
-        1. [X] ignore version start with 0. 
-        2. [X] ignore version name not all digits (e,g, 1.2.3b / 1.2.3.dev123))
-        3. [X] ignore version name with no '.' mark in it.
-        4. [X] ignore version with first number having more than 4 digit (12313245.1232.4)
-        5. [X] ignore version start with v
+Update releases json in data/releases folder
 """
 import json
 import glob
