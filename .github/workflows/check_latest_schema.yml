@@ -36,7 +36,8 @@ jobs:
           git add data/latest.schema
           git add data/latest.cuckoo
           git diff-index --quiet HEAD || git commit -m 'update: package latest schema'
-      - name: Git Push
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git push origin main
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          branch: main
