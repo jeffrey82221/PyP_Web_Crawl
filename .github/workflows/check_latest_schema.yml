@@ -1,5 +1,9 @@
 name: Check Latest Schema 
-on: push
+on: 
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 # on:
 #   schedule:
 #     - cron: "0 * * * *"
