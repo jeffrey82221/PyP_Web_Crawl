@@ -28,8 +28,8 @@ jobs:
           git diff-index --quiet HEAD || git commit -m 'update: package names'
       - name: Git Push
         run: |
-          git remote set-url origin "https://github.com/${{ github.repository }}"
-          git push origin main -u ${{ secrets.PERSONAL_TOKEN }}
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git push origin main
   update_latest_json:
     name: Upload Latest Json for Each Package
     needs: update_package_names
@@ -64,7 +64,7 @@ jobs:
           git diff-index --quiet HEAD || git commit -m 'update: package latest json'
       - name: Git Push
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git remote set-url origin https://${{ secrets.PERSONAL_TOKEN }}@github.com/jeffrey82221/PyPi_Web_Crawl
           git push --set-upstream origin update_latest/${{ matrix.alpha }}
           git push origin update_latest/${{ matrix.alpha }}
   merge_n_push_latest:
