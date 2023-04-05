@@ -31,8 +31,9 @@ jobs:
         run: |
           # Run Docker container with the loaded image
           docker run -v $(pwd):/io --rm my-image:${{ github.sha }} bash \
-            debug.sh ${{ secrets.FILEKEY }} hello2
+            etl.sh ${{ secrets.FILEKEY }} hello2
       - name: Check Root Files
         run: |
-          pwd
+          cd app
           ls
+          git status
