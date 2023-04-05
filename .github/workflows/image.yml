@@ -2,6 +2,7 @@ name: Image Experiment
 on: push
 jobs:
   build_image:
+    name: Build Image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,6 +17,8 @@ jobs:
           name: my-image-cache
           path: my-image.tar
   use_image:
+    name: Try using image
+    needs: build_image
     runs-on: ubuntu-latest
     steps:
       - name: Download image cache
