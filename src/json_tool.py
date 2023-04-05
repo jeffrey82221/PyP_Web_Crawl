@@ -6,9 +6,12 @@ key = Fernet.generate_key()
 
 class JsonTool:
     def __init__(self, key_path: str):
-        with open(key_path, "rb") as filekey:
-            key = filekey.read()
-        self._fernet = Fernet(key)
+        try:
+            with open(key_path, "rb") as filekey:
+                key = filekey.read()
+            self._fernet = Fernet(key)
+        except:
+            print("no encrypt/decrypt function")
 
     def dump(self, save_path: str, result: dict):
         json_str = bytes(json.dumps(result, ensure_ascii=False, indent=2), "utf-8")
