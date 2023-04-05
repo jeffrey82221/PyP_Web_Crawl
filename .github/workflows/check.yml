@@ -1,5 +1,7 @@
 name: Check Release Json Schema
 on: 
+  schedule:
+    - cron: "0 0 * * *"
   pull_request:
     types: [closed]
     branches:
@@ -31,19 +33,30 @@ jobs:
           echo ${{ secrets.FILEKEY }} >> filekey.key
       - name: Sample and Download Json
         run: |
-          python sample_n_download.py data/package_names.txt ./download 10000
-      - name: Run JSkiner 
+          python sample_n_download.py data/package_names.txt ./download 5000
+      - name: Sample and Decrypt Json
+        run: |
+          python sample_n_decrypt.py data/latest ./decrypt 10000
+      - name: Run JSkiner 1
         run: jskiner --in-path ./download --nworkers 2 --verbose true --out data/release.schema --batch-size 100 --cuckoo-path data/release.cuckoo --cuckoo-size 50000000 --cuckoo-fpr 0.1
-      - name: Git commit
+      - name: Run JSkiner 2
+        run: jskiner --in-path ./decrypt --nworkers 2 --verbose true --out data/latest.schema --batch-size 1000 --cuckoo-path data/latest.cuckoo --cuckoo-size 50000000 --cuckoo-fpr 0.1
+      - name: Git Config
         run: |
           git config --global user.name "jeffrey82221"
           git config --global user.email "jeffrey82221@gmail.com"
+      - name: Git commit 1
+        run: |
           git add data/release.schema
           git add data/release.cuckoo
           git diff-index --quiet HEAD || git commit -m 'update: package release schema'
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
-          branch: main
-          
+      - name: Git commit 2
+        run: |
+          git add data/latest.schema
+          git add data/latest.cuckoo
+          git diff-index --quiet HEAD || git commit -m 'update: package latest schema'
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.PERSONAL_TOKEN }}
+      #     branch: main

@@ -121,18 +121,24 @@ def get_all_etl_date():
         date = MonthlyReleaseLoader._get_next_month(date)
 
 
-def read_parquet():
+def row_count():
+    """
+    Monitor the ETL resulting row count
+    """
     parquet_files = glob.glob("data/release_time/*.parquet")
-    df = pd.concat([pd.read_parquet(file) for file in parquet_files])
-    return df
+    if parquet_files:
+        df = pd.concat([pd.read_parquet(file) for file in parquet_files])
+        return len(df)
+    else:
+        return 0
 
 
 if __name__ == "__main__":
-    print("Number of releases in parquets before etl:", len(read_parquet()))
+    print("Number of releases in parquets before etl:", row_count())
     for etl_date in get_all_etl_date():
         loader = MonthlyReleaseLoader(etl_date)
         if loader.parquet_exists:
             print(loader.target_parquet, "exists:", loader.parquet_exists)
         else:
             loader.run()
-            print("Number of releases in parquets after etl:", len(read_parquet()))
+            print("Number of releases in parquets after etl:", row_count())

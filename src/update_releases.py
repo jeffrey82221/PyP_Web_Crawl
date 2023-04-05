@@ -20,14 +20,15 @@ class ReleaseUpdator:
 
     def update(self, pkg_name):
         releases = list(ReleaseUpdator.get_release_versions(pkg_name))
-        print("all releases:", releases)
+        n_all_releases = len(releases)
         releases = ignore_filter.connect(releases)
         releases = filter(
             lambda ver: not os.path.exists(self.save_path(pkg_name, ver)),
             releases,
         )
         releases = list(releases)
-        print("filtered releases:", releases)
+        n_filtered_releases = len(releases)
+        print(f"# of releases for {pkg_name} (filtered/all): {n_filtered_releases}/{n_all_releases}")
         if releases:
             jsons = map(
                 lambda release: (
@@ -37,10 +38,6 @@ class ReleaseUpdator:
                 ),
                 releases,
             )
-            folder = f"{self._target_path}/{pkg_name}"
-            if not os.path.exists(folder):
-                os.mkdir(folder)
-                print(folder, "created")
             saved_json = map(lambda x: self.save_json(*x), jsons)
             _ = list(saved_json)
 
@@ -65,6 +62,7 @@ class ReleaseUpdator:
             json_tool.dump(save_path, json_obj)
         else:
             JsonTool._dump_original(save_path, json_obj)
+        print('\t\t', save_path, 'saved')
 
 
 update = ReleaseUpdator().update
