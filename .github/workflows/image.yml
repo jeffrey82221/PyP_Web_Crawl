@@ -1,0 +1,58 @@
+name: Image Experiment
+on: 
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+jobs:
+  build_image:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Build Docker image
+        run: |
+          docker build -t my-image:${{ github.sha }} .
+          docker save -o my-image.tar my-image:${{ github.sha }}
+      - name: Upload image to cache
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-image-cache
+          path: my-image.tar
+  use_image:
+    name: Try using image
+    needs: build_image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download image cache
+        uses: actions/download-artifact@v2
+        with:
+          name: my-image-cache
+      - name: Load image
+        run: docker load -i my-image.tar
+      - name: Run Docker container
+        run: |
+          # Run Docker container with the loaded image
+          docker run -v $(pwd):/io --rm my-image:${{ github.sha }} bash \
+            etl.sh ${{ secrets.FILEKEY }}
+      - name: Git commit 
+        run: |
+          sudo chmod -R 777 app
+          cd app
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git remote set-url origin https://${{ secrets.PERSONAL_TOKEN}}@github.com/jeffrey82221/PyPi_Web_Crawl
+          git status
+          git add data
+          git diff-index --quiet HEAD || git commit -m 'update: package names'
+      - name: Git Push
+        run: |
+          cd app
+          git config --local user.email "jeffrey82221@gmail.com"
+          git config --local user.name "jeffrey82221"
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git push --set-upstream origin main
+          git push origin main
