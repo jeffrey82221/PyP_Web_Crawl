@@ -11,9 +11,9 @@ from src.json_tool import json_tool, JsonTool
 
 
 class ReleaseUpdator:
-    def __init__(self, target_path="data/releases", encrypt=True):
+    def __init__(self, target_path="data/releases", encrypt_save=True):
         self._target_path = target_path
-        self._encrypt = encrypt
+        self._encrypt_save = encrypt_save
 
     def save_path(self, pkg_name, ver):
         return f"{self._target_path}/{pkg_name}-{ver}.json"
@@ -61,7 +61,7 @@ class ReleaseUpdator:
 
     def save_json(self, pkg_name, ver, json_obj):
         save_path = self.save_path(pkg_name, ver)
-        if self._encrypt:
+        if self._encrypt_save:
             json_tool.dump(save_path, json_obj)
         else:
             JsonTool._dump_original(save_path, json_obj)

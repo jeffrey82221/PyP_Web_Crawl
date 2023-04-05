@@ -16,7 +16,7 @@ def run(src_path, target_path, sample_size):
     sampled_pkgs = random.sample(pkgs, sample_size)
     if not os.path.exists(target_path):
         os.mkdir(target_path)
-    updator = ReleaseUpdator(target_path, encrypt=False)
+    updator = ReleaseUpdator(target_path, encrypt_save=False)
     for pkg in tqdm.tqdm(sampled_pkgs):
         updator.update(pkg)
 
