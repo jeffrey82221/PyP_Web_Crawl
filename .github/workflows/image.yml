@@ -31,4 +31,4 @@ jobs:
         run: |
           # Run Docker container with the loaded image
           docker run --rm my-image:${{ github.sha }} bash \
-            debug.sh
+            debug.sh hello1 hello2
