@@ -38,10 +38,6 @@ class ReleaseUpdator:
                 ),
                 releases,
             )
-            folder = f"{self._target_path}/{pkg_name}"
-            if not os.path.exists(folder):
-                os.mkdir(folder)
-                print('\t', folder, "created")
             saved_json = map(lambda x: self.save_json(*x), jsons)
             _ = list(saved_json)
 
