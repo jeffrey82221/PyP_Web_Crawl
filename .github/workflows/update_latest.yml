@@ -7,7 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
       - name: Set Up Python 
         uses: actions/setup-python@v2
         with:
@@ -39,7 +41,9 @@ jobs:
         alpha: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
       - name: Set Up Python 
         uses: actions/setup-python@v2
         with:
@@ -78,7 +82,9 @@ jobs:
         branches: ['0 1 2 3 4 5 6 7 8 9']
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
       - name: Git Pull Main
         run: |
           git config --global user.email "jeffrey82221@gmail.com"
