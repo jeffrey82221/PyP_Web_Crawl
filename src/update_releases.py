@@ -15,13 +15,16 @@ class ReleaseUpdator:
         self._target_path = target_path
         self._encrypt = encrypt
 
+    def save_path(self, pkg_name, ver):
+        return f"{self._target_path}/{pkg_name}-{ver}.json"
+
     def update(self, pkg_name):
         releases = list(ReleaseUpdator.get_release_versions(pkg_name))
         print("all releases:", releases)
         releases = ignore_filter.connect(releases)
         releases = filter(
             lambda ver: not os.path.exists(
-                f"{self._target_path}/{pkg_name}/{ver}.json"
+                self.save_path(pkg_name, ver)
             ),
             releases,
         )
@@ -58,8 +61,8 @@ class ReleaseUpdator:
         result = requests.get(url).json()
         return result
 
-    def save_json(self, pkg_name, release, json_obj):
-        save_path = f"{self._target_path}/{pkg_name}/{release}.json"
+    def save_json(self, pkg_name, ver, json_obj):
+        save_path = self.save_path(pkg_name, ver)
         if self._encrypt:
             json_tool.dump(save_path, json_obj)
         else:
