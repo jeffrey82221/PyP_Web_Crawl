@@ -23,9 +23,7 @@ class ReleaseUpdator:
         print("all releases:", releases)
         releases = ignore_filter.connect(releases)
         releases = filter(
-            lambda ver: not os.path.exists(
-                self.save_path(pkg_name, ver)
-            ),
+            lambda ver: not os.path.exists(self.save_path(pkg_name, ver)),
             releases,
         )
         releases = list(releases)
