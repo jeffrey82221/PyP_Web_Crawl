@@ -5,8 +5,10 @@ jobs:
     name: Build Image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
       - name: Build Docker image
         run: |
           docker build -t my-image:${{ github.sha }} .
@@ -32,8 +34,17 @@ jobs:
           # Run Docker container with the loaded image
           docker run -v $(pwd):/io --rm my-image:${{ github.sha }} bash \
             etl.sh ${{ secrets.FILEKEY }} hello2
-      - name: Check Root Files
+      - name: Check resulting files
         run: |
           cd app
           ls
           git status
+      - name: Git commit 
+        run: |
+          git add data
+          git diff-index --quiet HEAD || git commit -m 'update: package names'
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          branch: feature/image_flow
