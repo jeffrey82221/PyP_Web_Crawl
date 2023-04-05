@@ -23,5 +23,10 @@ class JsonTool:
             result = json.loads(json_str)
         return result
 
+    @staticmethod
+    def _dump_original(save_path, result):
+        with open(save_path, "w", encoding="utf-8") as f:
+            json.dump(result, f, ensure_ascii=False, indent=2)
+
 
 json_tool = JsonTool("filekey.key")
