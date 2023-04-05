@@ -25,13 +25,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: my-image-cache
-          path: my-image.tar
-      - name: Load Docker image from cache
-        run: |
-          docker load -i my-image.tar
       - name: Run Docker container
         run: |
           # Run Docker container with the loaded image
           docker run --rm my-image:${{ github.sha }} bash
           echo 'Inside the container'
-          python
+          pip freeze
