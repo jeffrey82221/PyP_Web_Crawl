@@ -13,8 +13,11 @@ echo 'Check inside .git'
 ls .git
 echo 'Check size of /app/data'
 du -sh /app/data
-echo 'Checkout to main branch'
-git checkout main
-git pull origin main
+echo 'Show git config'
+git config --list
+echo "Show remote branches:"
+git branch -r
+echo "Show remote branch URLs"
+git remote -v
 echo 'Check size of /app/data'
 du -sh /app/data
