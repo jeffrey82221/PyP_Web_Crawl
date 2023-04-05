@@ -13,6 +13,9 @@ Crawling the Dependency Web of PyPi Packages
 - [X] Add decryption and encryption to the json loading and saving core
 - [X] Add a sample and decrypt module to be use in `check_schema.yml`
 - [X] Refactor: rename `check_schema.yml` to `check_latest_schema.yml`
-- [ ] Add a release online sampling module and build another `check_release_schema.yml` workflow
-- [ ] Add monthly run workflow for `update_release_time.py`.
+- [X] Add a release online sampling module and build another `check_release_schema.yml` workflow
+- [X] Add monthly run workflow for `update_release_time.py`.
+- [ ] Connect all ETL together at etl.yml (do it everyday monday noon. update package_name -> update latest -> update release time). 
+- [ ] Connect check schema together at check.yml (do it everyday midnight.) 
+- [ ] Using fast checkout with workspace in the same workspace. 
 - [ ] Generate Edge.csv & Node.csv of every month. 
