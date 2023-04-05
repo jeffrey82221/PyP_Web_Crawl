@@ -2,10 +2,10 @@ name: Check Release Json Schema
 on: 
   schedule:
     - cron: "0 0 * * *"
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  # pull_request:
+  #   types: [closed]
+  #   branches:
+  #     - main
 jobs:
   check_schema:
     name: Checking the Schema of Release Json(s)
