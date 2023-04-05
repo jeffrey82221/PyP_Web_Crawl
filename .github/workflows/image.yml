@@ -46,6 +46,7 @@ jobs:
           git diff-index --quiet HEAD || git commit -m 'update: package names'
       - name: Git Push
         run: |
+          cd app
           git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git push --set-upstream origin feature/image_flow
           git push origin feature/image_flow
