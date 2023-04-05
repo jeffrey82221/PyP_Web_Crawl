@@ -1,12 +1,14 @@
-name: Check Release Json Schema
+name: Update Release Time Table
 on: 
+  schedule:
+    - cron: "0 18 1 * *"
   pull_request:
     types: [closed]
     branches:
       - main
 jobs:
-  check_schema:
-    name: Checking the Schema of Release Json(s)
+  update_release_time:
+    name: Do Release Time Table ETL
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -19,28 +21,21 @@ jobs:
           python-version: '3.9'
       - name: Install package
         run: |
-          pip install JSkiner
-          pip install black
           pip install tqdm
-          pip install blosc
-          pip install scalable-cuckoo-filter
+          pip install pandas==1.4.2
           pip install cryptography
-          pip install requests
       - name: Insert Key
         run: |
           echo ${{ secrets.FILEKEY }} >> filekey.key
-      - name: Sample and Download Json
+      - name: RUN ETL
         run: |
-          python sample_n_download.py data/package_names.txt ./download 10000
-      - name: Run JSkiner 
-        run: jskiner --in-path ./download --nworkers 2 --verbose true --out data/release.schema --batch-size 100 --cuckoo-path data/release.cuckoo --cuckoo-size 50000000 --cuckoo-fpr 0.1
+          python update_release_time.py
       - name: Git commit
         run: |
           git config --global user.name "jeffrey82221"
           git config --global user.email "jeffrey82221@gmail.com"
-          git add data/release.schema
-          git add data/release.cuckoo
-          git diff-index --quiet HEAD || git commit -m 'update: package release schema'
+          git add data/release_time
+          git diff-index --quiet HEAD || git commit -m 'update: release time table'
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
