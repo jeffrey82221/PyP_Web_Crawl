@@ -24,9 +24,10 @@ jobs:
           pip install tqdm
           pip install blosc
           pip install scalable-cuckoo-filter
+          pip install cryptography
       - name: Sample and Download Json
         run: |
-          python sample_n_download.py data/package_names.txt ./download 1000
+          python sample_n_download.py data/package_names.txt ./download 10000
       - name: Run JSkiner 
         run: jskiner --in-path ./download --nworkers 2 --verbose true --out data/release.schema --batch-size 100 --cuckoo-path data/release.cuckoo --cuckoo-size 50000000 --cuckoo-fpr 0.1
       - name: Git commit

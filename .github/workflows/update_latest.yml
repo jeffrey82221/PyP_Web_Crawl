@@ -2,10 +2,10 @@ name: Update Latest Json
 on: 
   schedule:
     - cron: "0 12 * * *"
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  # pull_request:
+  #   types: [closed]
+  #   branches:
+  #     - main
 jobs:
   update_package_names:
     runs-on: ubuntu-latest
