@@ -1,12 +1,18 @@
 name: Image Experiment
-on: push
+on: 
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 jobs:
   build_image:
     name: Build Image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
       - name: Build Docker image
         run: |
           docker build -t my-image:${{ github.sha }} .
@@ -30,5 +36,23 @@ jobs:
       - name: Run Docker container
         run: |
           # Run Docker container with the loaded image
-          docker run --rm my-image:${{ github.sha }} bash \
-            debug.sh ${{ secrets.FILEKEY }} hello2
+          docker run -v $(pwd):/io --rm my-image:${{ github.sha }} bash \
+            etl.sh ${{ secrets.FILEKEY }}
+      - name: Git commit 
+        run: |
+          sudo chmod -R 777 app
+          cd app
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git remote set-url origin https://${{ secrets.PERSONAL_TOKEN}}@github.com/jeffrey82221/PyPi_Web_Crawl
+          git status
+          git add data
+          git diff-index --quiet HEAD || git commit -m 'update: package names'
+      - name: Git Push
+        run: |
+          cd app
+          git config --local user.email "jeffrey82221@gmail.com"
+          git config --local user.name "jeffrey82221"
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git push --set-upstream origin main
+          git push origin main
