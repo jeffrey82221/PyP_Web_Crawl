@@ -25,6 +25,7 @@ jobs:
           pip install blosc
           pip install scalable-cuckoo-filter
           pip install cryptography
+          pip install requests
       - name: Sample and Download Json
         run: |
           python sample_n_download.py data/package_names.txt ./download 10000
