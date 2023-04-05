@@ -44,9 +44,8 @@ jobs:
           git status
           git add data
           git diff-index --quiet HEAD || git commit -m 'update: package names'
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
-          branch: feature/image_flow
-          directory: ./app
+      - name: Git Push
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git push --set-upstream origin feature/image_flow
+          git push origin feature/image_flow
