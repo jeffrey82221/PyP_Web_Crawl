@@ -36,6 +36,7 @@ jobs:
             etl.sh ${{ secrets.FILEKEY }}
       - name: Git commit 
         run: |
+          chmod u+w app
           cd app
           git add data
           git diff-index --quiet HEAD || git commit -m 'update: package names'
