@@ -119,7 +119,7 @@ jobs:
           done
   check_schema:
     name: Checking the Schema of Latest Json(s)
-    needs: update_latest_json
+    needs: merge_n_push_latest
     if: always()
     runs-on: ubuntu-latest
     steps:
