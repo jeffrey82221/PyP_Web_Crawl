@@ -30,6 +30,15 @@ jobs:
       - name: Run Docker container
         run: |
           # Run Docker container with the loaded image
-          docker run --rm my-image:${{ github.sha }} bash
+          docker run -it my-image:${{ github.sha }} bash
+      - name: Debug Inside the container
+        run: |
           echo 'Inside the container'
           pip freeze
+      - name: LS
+        run: |
+          ls
+          ls data
+      - name: Checkout Main
+          git checkout main
+          git pull
