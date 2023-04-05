@@ -30,16 +30,5 @@ jobs:
       - name: Run Docker container
         run: |
           # Run Docker container with the loaded image
-          docker run -it my-image:${{ github.sha }} bash
-      - name: Debug Inside the container
-        run: |
-          echo 'Inside the container'
-          pip freeze
-      - name: LS
-        run: |
-          ls
-          ls data
-      - name: Checkout Main
-        run: |
-          git checkout main
-          git pull
+          docker run --rm -v $(pwd):/io quay.io/pypa/manylinux2014_x86_64 bash \
+            /io/debug.sh
