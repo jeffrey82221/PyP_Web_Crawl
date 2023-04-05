@@ -9,8 +9,9 @@ import os
 from src.ignore import ignore_filter
 from src.json_tool import json_tool, JsonTool
 
+
 class ReleaseUpdator:
-    def __init__(self, target_path='data/releases', encrypt=True):
+    def __init__(self, target_path="data/releases", encrypt=True):
         self._target_path = target_path
         self._encrypt = encrypt
 
@@ -19,16 +20,19 @@ class ReleaseUpdator:
         print("all releases:", releases)
         releases = ignore_filter.connect(releases)
         releases = filter(
-            lambda ver: not os.path.exists(f"{self._target_path}/{pkg_name}/{ver}.json"), releases
+            lambda ver: not os.path.exists(
+                f"{self._target_path}/{pkg_name}/{ver}.json"
+            ),
+            releases,
         )
         releases = list(releases)
         print("filtered releases:", releases)
         if releases:
             jsons = map(
                 lambda release: (
-                    pkg_name, 
-                    release, 
-                    ReleaseUpdator.download_json(pkg_name, release)
+                    pkg_name,
+                    release,
+                    ReleaseUpdator.download_json(pkg_name, release),
                 ),
                 releases,
             )
@@ -61,5 +65,5 @@ class ReleaseUpdator:
         else:
             JsonTool._dump_original(save_path, json_obj)
 
-update = ReleaseUpdator().update
 
+update = ReleaseUpdator().update

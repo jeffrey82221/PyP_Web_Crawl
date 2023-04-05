@@ -25,7 +25,7 @@ class JsonTool:
 
     @staticmethod
     def _dump_original(save_path, result):
-        with open(save_path, 'w', encoding='utf-8') as f:
+        with open(save_path, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
 
 

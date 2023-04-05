@@ -20,8 +20,4 @@ def run(src_path, target_path, sample_size):
 
 
 if __name__ == "__main__":
-    run(
-        src_path=sys.argv[1], 
-        target_path=sys.argv[2], 
-        sample_size=int(sys.argv[3])
-    )
+    run(src_path=sys.argv[1], target_path=sys.argv[2], sample_size=int(sys.argv[3]))
