@@ -2,10 +2,10 @@ name: Check Schema
 on: 
   schedule:
     - cron: "0 0 * * *"
-  # pull_request:
-  #   types: [closed]
-  #   branches:
-  #     - main
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 jobs:
   check_schema:
     name: Checking the Schema of Release Json(s)
@@ -33,10 +33,10 @@ jobs:
           echo ${{ secrets.FILEKEY }} >> filekey.key
       - name: Sample and Download Json
         run: |
-          python sample_n_download.py data/package_names.txt ./download 5000
+          python sample_n_download.py data/package_names.txt ./download 1000
       - name: Sample and Decrypt Json
         run: |
-          python sample_n_decrypt.py data/latest ./decrypt 10000
+          python sample_n_decrypt.py data/latest ./decrypt 100000
       - name: Run JSkiner 1
         run: jskiner --in-path ./download --nworkers 2 --verbose true --out data/release.schema --batch-size 100 --cuckoo-path data/release.cuckoo --cuckoo-size 50000000 --cuckoo-fpr 0.1
       - name: Run JSkiner 2
@@ -55,8 +55,8 @@ jobs:
           git add data/latest.schema
           git add data/latest.cuckoo
           git diff-index --quiet HEAD || git commit -m 'update: package latest schema'
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.PERSONAL_TOKEN }}
-      #     branch: main
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PERSONAL_TOKEN }}
+          branch: main
