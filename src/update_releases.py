@@ -41,7 +41,7 @@ class ReleaseUpdator:
             folder = f"{self._target_path}/{pkg_name}"
             if not os.path.exists(folder):
                 os.mkdir(folder)
-                print(folder, "created")
+                print('\t', folder, "created")
             saved_json = map(lambda x: self.save_json(*x), jsons)
             _ = list(saved_json)
 
@@ -66,7 +66,7 @@ class ReleaseUpdator:
             json_tool.dump(save_path, json_obj)
         else:
             JsonTool._dump_original(save_path, json_obj)
-        print(save_path, 'saved')
+        print('\t\t', save_path, 'saved')
 
 
 update = ReleaseUpdator().update
