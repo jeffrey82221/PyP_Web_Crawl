@@ -1,4 +1,4 @@
-name: Update Latest Json
+name: ETL
 on: 
   schedule:
     - cron: "0 12 * * *"
@@ -119,6 +119,7 @@ jobs:
           done
   update_release_time:
     name: Do Release Time Table ETL
+    needs: merge_n_push_latest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo

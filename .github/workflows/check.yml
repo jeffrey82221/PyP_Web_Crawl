@@ -1,4 +1,4 @@
-name: Check Release Json Schema
+name: Check Schema
 on: 
   schedule:
     - cron: "0 0 * * *"
