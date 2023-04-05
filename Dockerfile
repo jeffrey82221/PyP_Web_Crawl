@@ -5,6 +5,11 @@ FROM python:3.9-slim
 RUN apt-get update &&\
  apt-get install -y git
 
+# Setup Git 
+RUN git config pull.rebase false &&\
+    git config --global user.name "jeffrey82221" &&\
+    git config --global user.email "jeffrey82221@gmail.com"
+    
 # Set the working directory to /app
 WORKDIR /app
 

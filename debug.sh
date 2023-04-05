@@ -1,5 +1,5 @@
 echo 'Check the arg value'
-echo $1
+echo $1 >> filekey.key
 echo $2
 echo 'Inside Container'
 pip freeze
@@ -15,6 +15,6 @@ echo 'Check size of /app/data'
 du -sh /app/data
 echo 'Checkout to main branch'
 git checkout main
-git pull
+git pull origin main
 echo 'Check size of /app/data'
 du -sh /app/data
