@@ -33,7 +33,7 @@ jobs:
         run: |
           # Run Docker container with the loaded image
           docker run -v $(pwd):/io --rm my-image:${{ github.sha }} bash \
-            etl.sh ${{ secrets.FILEKEY }} hello2
+            etl.sh ${{ secrets.FILEKEY }}
       - name: Git commit 
         run: |
           cd app
