@@ -24,6 +24,7 @@ jobs:
           pip install tqdm
           pip install pandas==1.4.2
           pip install cryptography
+          pip install pyarrow==8.0.0
       - name: Insert Key
         run: |
           echo ${{ secrets.FILEKEY }} >> filekey.key
