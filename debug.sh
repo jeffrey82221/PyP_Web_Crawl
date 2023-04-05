@@ -21,3 +21,6 @@ echo "Show remote branch URLs"
 git remote -v
 echo 'Check size of /app/data'
 du -sh /app/data
+echo 'Move something to /io'
+echo 'Hello' >> hellofile.txt
+cp hellofile.txt /io

@@ -30,5 +30,9 @@ jobs:
       - name: Run Docker container
         run: |
           # Run Docker container with the loaded image
-          docker run --rm my-image:${{ github.sha }} bash \
+          docker run -v $(pwd):/io --rm my-image:${{ github.sha }} bash \
             debug.sh ${{ secrets.FILEKEY }} hello2
+      - name: Check Root Files
+        run: |
+          pwd
+          ls
