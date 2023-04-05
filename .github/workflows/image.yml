@@ -40,5 +40,6 @@ jobs:
           ls
           ls data
       - name: Checkout Main
+        run: |
           git checkout main
           git pull
