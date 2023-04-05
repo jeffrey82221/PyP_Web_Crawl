@@ -50,6 +50,9 @@ class MonthlyReleaseLoader:
     ):
         self._src_path = src_path
         self._target_path = target_path
+        if not os.path.exists(target_path):
+            os.mkdir(target_path)
+            print(target_path, 'created')
         self._start_time = MonthlyReleaseLoader._get_month_first_day(etl_date)
         self._end_time = MonthlyReleaseLoader._get_next_month(self._start_time)
         self._time_filter = TimeFilter(self._start_time, self._end_time)
