@@ -1,3 +1,5 @@
+echo 'Sync the REPO'
+git pull
 echo 'Copy Entire /app to outside'
 cp -r /app /io
 echo 'Check the arg value'

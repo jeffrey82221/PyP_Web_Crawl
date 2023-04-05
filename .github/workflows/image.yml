@@ -34,13 +34,9 @@ jobs:
           # Run Docker container with the loaded image
           docker run -v $(pwd):/io --rm my-image:${{ github.sha }} bash \
             etl.sh ${{ secrets.FILEKEY }} hello2
-      - name: Check resulting files
-        run: |
-          cd app
-          ls
-          git status
       - name: Git commit 
         run: |
+          cd app
           git add data
           git diff-index --quiet HEAD || git commit -m 'update: package names'
       - name: Push changes
