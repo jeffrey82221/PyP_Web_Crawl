@@ -7,9 +7,8 @@ on:
     branches:
       - main
 jobs:
-  update_release_time:
+  update:
     name: Do Release Time Table ETL
-    needs: merge_n_push_latest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
