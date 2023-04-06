@@ -18,6 +18,7 @@ import glob
 from src.ignore import ignore_filter
 from src.json_tool import json_tool
 
+MAX_RUN = 4
 
 class TimeFilter:
     """
@@ -135,6 +136,7 @@ def row_count():
 
 if __name__ == "__main__":
     print("Number of releases in parquets before etl:", row_count())
+    run_count = 0
     for etl_date in get_all_etl_date():
         loader = MonthlyReleaseLoader(etl_date)
         if loader.parquet_exists:
@@ -142,3 +144,6 @@ if __name__ == "__main__":
         else:
             loader.run()
             print("Number of releases in parquets after etl:", row_count())
+            run_count += 1
+        if run_count >= MAX_RUN:
+            break
