@@ -85,8 +85,9 @@ jobs:
       - uses: repo-sync/pull-request@v2
         name: Pull Request
         with:
-          destination_branch: "main"
-          pr_title: "Pulling ${{ github.ref }} into main"
+          source_branch: update_latest/${{ matrix.alpha }}
+          destination_branch: main
+          pr_title: "Pulling update_latest/${{ matrix.alpha }} into main"
           pr_body: "[bot] An automated PR"
           pr_reviewer: "jeffrey82221"
           pr_draft: true
