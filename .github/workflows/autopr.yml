@@ -24,6 +24,7 @@ jobs:
       - name: New Branch
         run: |
           git checkout -b update_latest/${{ matrix.alpha }}
+          git push --set-upstream origin update_latest/${{ matrix.alpha }}
       - name: Insert Key
         run: |
           echo ${{ secrets.FILEKEY }} >> filekey.key
