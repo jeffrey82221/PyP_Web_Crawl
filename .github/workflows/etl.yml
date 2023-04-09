@@ -152,7 +152,7 @@ jobs:
   #         done
   update_release_time:
     name: Do Release Time Table ETL
-    needs: merge_n_push_latest
+    needs: update_latest_json
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
