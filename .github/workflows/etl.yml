@@ -82,30 +82,29 @@ jobs:
         with:
           github_token: ${{ secrets.PERSONAL_TOKEN }}
           branch: update_latest/${{ matrix.alpha }}
-      - uses: repo-sync/pull-request@v2
-        name: Pull Request
-        with:
-          source_branch: update_latest/${{ matrix.alpha }}
-          destination_branch: main
-          pr_title: "Pulling update_latest/${{ matrix.alpha }} into main"
-          pr_body: "[bot] An automated PR"
-          pr_reviewer: "jeffrey82221"
-          pr_draft: true
-          pr_label: "automerge"
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
-  automerge:
-    name: Merge and Close the PRs
-    runs-on: ubuntu-latest
-    needs: update_latest_json
-    steps:
-      - uses: reitermarkus/automerge@v2
+      - name: Create Pull Request
+        id: pr_id
+        uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
+      - name: Enable Pull Request Automerge
+        if: steps.pr_id.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          pull-request-number: ${{ steps.pr_id.outputs.pull-request-number }}
           merge-method: squash
-          required-labels: automerge
-          pull-request: ${{ github.event.inputs.pull-request }}
-          review: ${{ github.event.inputs.review }}
-          dry-run: false
+      # - uses: repo-sync/pull-request@v2
+      #   name: Pull Request
+      #   with:
+      #     source_branch: update_latest/${{ matrix.alpha }}
+      #     destination_branch: main
+      #     pr_title: "Pulling update_latest/${{ matrix.alpha }} into main"
+      #     pr_body: "[bot] An automated PR"
+      #     pr_reviewer: "jeffrey82221"
+      #     pr_draft: true
+      #     pr_label: "automerge"
+      #     github_token: ${{ secrets.PERSONAL_TOKEN }}
   merge_n_push_latest:
     name: Merge Updated Branches of all Latest Package
     needs: automerge
