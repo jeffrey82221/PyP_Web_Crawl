@@ -77,12 +77,6 @@ jobs:
           git config --global user.email "jeffrey82221@gmail.com"
           git add data/latest
           git diff-index --quiet HEAD || git commit -m 'update: package latest json'
-      - name: Git pull
-        run: |
-          git config --global user.email "jeffrey82221@gmail.com"
-          git config --global user.name "jeffrey82221"
-          git config pull.rebase false
-          git pull origin update_latest/${{ matrix.alpha }}
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
@@ -96,10 +90,24 @@ jobs:
           pr_body: "[bot] An automated PR"
           pr_reviewer: "jeffrey82221"
           pr_draft: true
+          pr_label: "automerge"
           github_token: ${{ secrets.PERSONAL_TOKEN }}
+  automerge:
+    name: Merge and Close the PRs
+    runs-on: ubuntu-latest
+    needs: update_latest_json
+    steps:
+      - uses: reitermarkus/automerge@v2
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          merge-method: squash
+          required-labels: automerge
+          pull-request: ${{ github.event.inputs.pull-request }}
+          review: ${{ github.event.inputs.review }}
+          dry-run: false
   merge_n_push_latest:
     name: Merge Updated Branches of all Latest Package
-    needs: update_latest_json
+    needs: automerge
     if: always()
     runs-on: ubuntu-20.04
     strategy:
