@@ -2,9 +2,12 @@ name: ETL
 on: 
   schedule:
     - cron: "0 12 * * *"
+  pull_request:
+    types: [ labeled ]
 jobs:
   update_package_names:
     runs-on: ubuntu-latest
+    if: ${{ github.event.label.name == 'try' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
