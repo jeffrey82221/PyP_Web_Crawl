@@ -3,11 +3,11 @@ on:
   schedule:
     - cron: "0 12 * * *"
   pull_request:
-    types: [ labeled ]
+    types: [ closed ]
 jobs:
   update_package_names:
     runs-on: ubuntu-latest
-    if: ${{ github.event.label.name == 'try' }}
+    if: ${{ github.event.label.name != 'automerge' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
           git config --global user.email "jeffrey82221@gmail.com"
           git config --global user.name "jeffrey82221"
           git config pull.rebase false
-          git pull origin main
+          git pull origin main || echo 'pull failed'
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
@@ -141,7 +141,7 @@ jobs:
           git config --global user.email "jeffrey82221@gmail.com"
           git config --global user.name "jeffrey82221"
           git config pull.rebase false
-          git pull origin main
+          git pull origin main || echo 'pull failed'
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
