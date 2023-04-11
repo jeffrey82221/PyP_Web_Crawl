@@ -2,14 +2,20 @@ name: ETL
 on: 
   schedule:
     - cron: "0 8 * * *"
+  pull_request:
+    types: [closed]
 jobs:
   update_package_names:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Setup SSH
+        uses: MrSquaare/ssh-setup-action@v1
         with:
-          fetch-depth: 1
+            host: github.com
+            private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Clone repository
+        run: |
+          git clone --depth 1 git@github.com:jeffrey82221/PyPi_Web_Crawl.git
       - name: Set Up Python 
         uses: actions/setup-python@v2
         with:
