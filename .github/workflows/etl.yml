@@ -1,13 +1,10 @@
 name: ETL
 on: 
   schedule:
-    - cron: "0 12 * * *"
-  pull_request:
-    types: [ closed ]
+    - cron: "0 8 * * *"
 jobs:
   update_package_names:
     runs-on: ubuntu-latest
-    if: ${{ github.event.label.name != 'automerge' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
