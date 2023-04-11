@@ -1,9 +1,7 @@
 name: ETL
 on: 
   schedule:
-    - cron: "0 8 * * *"
-  pull_request:
-    types: [closed]
+    - cron: "0 0 * * *"
 jobs:
   update_package_names:
     runs-on: ubuntu-latest
