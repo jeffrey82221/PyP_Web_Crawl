@@ -8,15 +8,12 @@ jobs:
   update_package_names:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup SSH
-        uses: MrSquaare/ssh-setup-action@v1
+      uses: actions/checkout@v3
         with:
-            host: github.com
-            private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Clone repository
-        run: |
-          git clone --depth 1 git@github.com:jeffrey82221/PyPi_Web_Crawl.git
-          cd PyPi_Web_Crawl
+          fetch-depth: 1
+          ref: 'main'
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-known-hosts: github.com
       - name: Set Up Python 
         uses: actions/setup-python@v2
         with:
@@ -27,6 +24,7 @@ jobs:
           pip install requests==2.28.2
       - name: Run update script
         run : |
+         ls
          python update_package_names.py
       - name: Git Commit 
         run: |
