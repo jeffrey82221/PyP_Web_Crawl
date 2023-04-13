@@ -101,50 +101,20 @@ jobs:
           base: main
           delete-branch: true
           labels: "automerge"
-      - name: Pull Request Automerge 1
+      - name: Pull Request Automerge
         if: steps.pr_id.outputs.pull-request-operation == 'created'
-        id: merge1
-        continue-on-error: true
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          pull-request-number: ${{ steps.pr_id.outputs.pull-request-number }}
-          merge-method: merge
-      - name: Retry 1 - sleep
-        if: steps.merge1.outcome == 'failure'
-        id: sleep1
-        run: sleep 60
-      - name: Pull Request Automerge 2
-        if: steps.sleep1.outcome == 'success'
-        id: merge2
-        continue-on-error: true
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          pull-request-number: ${{ steps.pr_id.outputs.pull-request-number }}
-          merge-method: merge
-      - name: Retry 2 - sleep
-        if: steps.merge2.outcome == 'failure'
-        id: sleep2
-        run: sleep 120
-      - name: Pull Request Automerge 3
-        if: steps.sleep2.outcome == 'success'
-        id: merge3
-        continue-on-error: true
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          pull-request-number: ${{ steps.pr_id.outputs.pull-request-number }}
-          merge-method: merge
-      - name: Retry 3 - sleep
-        if: steps.merge3.outcome == 'failure'
-        id: sleep3
-        run: sleep 240
-      - name: Pull Request Automerge 4
-        if: steps.sleep3.outcome == 'success'
-        id: merge4
-        continue-on-error: true
-        uses: peter-evans/enable-pull-request-automerge@v3
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.PERSONAL_TOKEN }}"
+          MERGE_LABELS: "automerge"
+          MERGE_METHOD: "squash"
+          MERGE_COMMIT_MESSAGE: "Automerge Latest Jsons ${{ matrix.alpha }}"
+          MERGE_FORKS: "false"
+          MERGE_RETRIES: "${{ matrix.split_cnt }}"
+          MERGE_DELETE_BRANCH: "true"
+          MERGE_RETRY_SLEEP: "${{ matrix.alpha }}0000"
+          MERGE_REQUIRED_APPROVALS: "0"
+          PULL_REQUEST: "${{ steps.pr_id.outputs.pull-request-number }}"
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
           pull-request-number: ${{ steps.pr_id.outputs.pull-request-number }}
