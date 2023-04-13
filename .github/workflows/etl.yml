@@ -101,7 +101,7 @@ jobs:
           base: main
           delete-branch: true
           labels: "automerge"
-      - name: Pull Request Automerge
+      - name: Merge Pull Request
         if: steps.pr_id.outputs.pull-request-operation == 'created'
         uses: "pascalgn/automerge-action@v0.15.6"
         env:
@@ -115,10 +115,6 @@ jobs:
           MERGE_RETRY_SLEEP: "${{ matrix.alpha }}0000"
           MERGE_REQUIRED_APPROVALS: "0"
           PULL_REQUEST: "${{ steps.pr_id.outputs.pull-request-number }}"
-        with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          pull-request-number: ${{ steps.pr_id.outputs.pull-request-number }}
-          merge-method: merge
       - name: Try Delete
         if: always()
         run: git push origin -d update_latest/${{ matrix.alpha }} || echo 'do nothing'

@@ -15,9 +15,9 @@ Crawling the Dependency Web of PyPi Packages
 - [X] Refactor: rename `check_schema.yml` to `check_latest_schema.yml`
 - [X] Add a release online sampling module and build another `check_release_schema.yml` workflow
 - [X] Add monthly run workflow for `update_release_time.py`.
-- [ ] Fix: JSkiner - pyo3_runtime.PanicException: There should not be Union in Union
+- [-] Fix: JSkiner - pyo3_runtime.PanicException: There should not be Union in Union
 - [X] Connect all ETL together at etl.yml (do it everyday monday noon. update package_name -> update latest -> update release time). 
-- [ ] Using auto PR instead of branch merging 
-- [ ] Connect check schema together at check.yml (do it everyday midnight.) 
-- [ ] Using fast checkout with workspace in the same workspace. 
+- [X] Using auto PR instead of branch merging 
+- [X] Connect check schema together at check.yml (do it everyday midnight.) 
+- [-] Using fast checkout with workspace in the same workspace. 
 - [ ] Generate Edge.csv & Node.csv of every month. 
